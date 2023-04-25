@@ -1,0 +1,5 @@
+{
+    "rust-analyzer.linkedProjects": [
+        ".\\heif-lib\\Cargo.toml"
+    ]
+}

@@ -1,14 +1,16 @@
-pub fn add(left: usize, right: usize) -> usize {
-    left + right
-}
+use std::io::{self, Read};
 
-#[cfg(test)]
-mod tests {
-    use super::*;
+pub mod parser;
+pub mod types;
 
-    #[test]
-    fn it_works() {
-        let result = add(2, 2);
-        assert_eq!(result, 4);
-    }
+pub fn parse_file<F: Read>(file: &mut F) -> io::Result<()> {
+    let mut buf = Vec::new();
+    file.read_to_end(&mut buf)?;
+
+    match parser::parse_box(&buf) {
+        Ok((_i, first_box)) => println!("First box: {}", first_box),
+        Err(e) => panic!("{e}"),
+    };
+
+    Ok(())
 }
