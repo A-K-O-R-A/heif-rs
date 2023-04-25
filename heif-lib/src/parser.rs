@@ -1,6 +1,6 @@
 use nom::{bytes::complete::take, number::complete::be_u32, sequence::Tuple, IResult, Parser};
 
-use crate::types::boxes::BaseBox;
+use crate::boxes::base::BaseBox;
 
 fn take_size(i: &[u8]) -> IResult<&[u8], u32> {
     be_u32(i)
@@ -27,4 +27,18 @@ pub fn parse_box(i: &[u8]) -> IResult<&[u8], BaseBox> {
             data,
         },
     ))
+}
+
+pub fn parse_boxes(i: &[u8]) -> IResult<&[u8], Vec<BaseBox>> {
+    let mut input_left = i;
+    let mut boxes = Vec::new();
+
+    while input_left.len() > 8 {
+        let (new_i, parsed_box) = parse_box(input_left)?;
+
+        input_left = new_i;
+        boxes.push(parsed_box)
+    }
+
+    Ok((input_left, boxes))
 }
