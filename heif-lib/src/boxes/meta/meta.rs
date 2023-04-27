@@ -1,4 +1,4 @@
-use super::base::{BaseBox, FullBox};
+use crate::boxes::base::{BaseBox, FullBox};
 
 // BaseBox + FullBox
 #[derive(Debug)]
@@ -78,6 +78,40 @@ pub struct ItemInfoEntry<'a> {
 }
 
 // BaseBox + FullBox
+pub struct IPMPControlBox<'a> {
+    pub size: u32,
+    /// This will always be `"iinf"`
+    pub box_type: &'a str,
+    pub version: u8,
+    pub flags: u32,
+    // End of full box
+    pub tool_list: IPMPToolListDescriptor<'a>,
+    pub ipmp_descriptors: Vec<IPMPDescriptor<'a>>,
+}
+
+// BaseBox + FullBox
+pub struct IPMPToolListDescriptor<'a> {
+    pub size: u32,
+    /// This will always be `"iinf"`
+    pub box_type: &'a str,
+    pub version: u8,
+    pub flags: u32,
+    // End of full box
+    pub entry_count: u32,
+    pub entries: Vec<FullBox<'a>>,
+}
+
+// BaseBox + FullBox
+pub struct IPMPDescriptor<'a> {
+    pub size: u32,
+    /// This will always be `"iinf"`
+    pub box_type: &'a str,
+    pub version: u8,
+    pub flags: u32,
+    // End of full box
+}
+
+// BaseBox + FullBox
 pub struct ItemReferenceBox<'a> {
     pub size: u32,
     /// This will always be `"iref"`
@@ -97,4 +131,15 @@ pub struct SingleItemTypeReferenceBox<'a> {
     pub from_item_id: u32,
     pub reference_count: u16,
     pub to_item_ids: Vec<u32>,
+}
+
+// BaseBox + FullBox
+pub struct ItemDataBox<'a> {
+    pub size: u32,
+    /// This will always be `"iinf"`
+    pub box_type: &'a str,
+    pub version: u8,
+    pub flags: u32,
+    pub entry_count: u32,
+    pub entries: Vec<FullBox<'a>>,
 }
