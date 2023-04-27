@@ -1,6 +1,6 @@
 use std::io::{self, Read};
 
-use parser::meta_box::parse_meta_box;
+use parser::{ftyp::parse_file_type_box, meta_box::parse_meta_box};
 
 pub mod boxes;
 pub mod parser;
@@ -14,7 +14,10 @@ pub fn parse_file<F: Read>(file: &mut F) -> io::Result<()> {
     if let Ok((_i, boxes)) = parse_result {
         //println!("{}", boxe);
         //println!("{:x?}", boxe.data);
+        let (_, ftyp_box) = parse_file_type_box(boxes[0].clone()).unwrap();
         let (_, meta_box) = parse_meta_box(boxes[1].clone()).unwrap();
+
+        println!("{:?}", ftyp_box);
 
         for b in meta_box.boxes {
             println!("{}", b);

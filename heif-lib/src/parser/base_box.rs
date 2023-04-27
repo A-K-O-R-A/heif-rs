@@ -1,18 +1,16 @@
 use nom::{
-    bytes::complete::{take, take_while},
+    bytes::complete::take,
+    error::dbg_dmp,
     number::complete::{be_u32, be_u8},
     sequence::Tuple,
-    IResult, Parser,
+    IResult,
 };
 
+use super::util::take_4b_str;
 use crate::boxes::base::{BaseBox, FullBox};
 
 fn take_size(i: &[u8]) -> IResult<&[u8], u32> {
     be_u32(i)
-}
-
-fn take_type(i: &[u8]) -> IResult<&[u8], &[u8]> {
-    take(4usize)(i)
 }
 
 fn take_data(box_size: u32) -> impl Fn(&[u8]) -> IResult<&[u8], &[u8]> {
@@ -24,14 +22,14 @@ pub fn parse_base_box(i: &[u8]) -> IResult<&[u8], BaseBox> {
     // TODO, spcial size case
     // https://github.com/jdeng/goheif/blob/a0d6a8b3e68f9d613abd9ae1db63c72ba33abd14/heif/bmff/bmff.go#L199
 
-    let (i, (box_size, box_type)) = (take_size, take_type).parse(i)?;
-    let (i, data) = take_data(box_size).parse(i)?;
+    let (i, (box_size, box_type)) = (take_size, dbg_dmp(take_4b_str, "bruh")).parse(i)?;
+    let (i, data) = take_data(box_size)(i)?;
 
     Ok((
         i,
         BaseBox {
             size: box_size,
-            box_type: std::str::from_utf8(box_type).unwrap(),
+            box_type,
             data,
         },
     ))
@@ -58,7 +56,7 @@ pub fn parse_full_box(base_box: BaseBox) -> IResult<&[u8], FullBox> {
 
     let (i, (version, flags)) = (take_version, take_flags).parse(i)?;
 
-    let (i, data) = take_while(|_| true).parse(i)?;
+    // let (i, data) = take_while(|_| true).parse(i)?;
 
     Ok((
         i,
@@ -67,7 +65,8 @@ pub fn parse_full_box(base_box: BaseBox) -> IResult<&[u8], FullBox> {
             box_type: base_box.box_type,
             version,
             flags,
-            data,
+            // The remaining data is just i
+            data: i,
         },
     ))
 }

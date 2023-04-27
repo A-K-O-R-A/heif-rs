@@ -4,9 +4,9 @@ pub struct FileTypeBox<'a> {
     /// This will always be `"ftyp"`
     pub box_type: &'a str,
     pub major_brand: &'a str,
-    pub minor_version: &'a str,
+    pub minor_version: u32,
     /// Each brand is 4 bytes in long
-    pub compatible_brands: &'a [&'a str],
+    pub compatible_brands: Vec<&'a str>,
 }
 
 #[derive(Debug)]
