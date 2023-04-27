@@ -9,6 +9,7 @@ pub struct MetaBox<'a> {
     pub version: u8,
     /// only 24 bits -> 3 bytes
     pub flags: u32,
+    // End of full box
     pub boxes: Vec<BaseBox<'a>>,
 }
 
@@ -19,6 +20,7 @@ pub struct HandlerBox<'a> {
     pub box_type: &'a str,
     pub version: u8,
     pub flags: u32,
+    // End of full box
     pub handler_type: &'a [u8; 4],
     // Unsure if this is a string
     pub name: &'a str,
@@ -31,22 +33,8 @@ pub struct PrimaryItemBox<'a> {
     pub box_type: &'a str,
     pub version: u8,
     pub flags: u32,
+    // End of FullBox
     pub item_id: u32,
-}
-
-// BaseBox + FullBox
-pub struct ItemLocationBox<'a> {
-    pub size: u32,
-    /// This will always be `"iloc"`
-    pub box_type: &'a str,
-    pub version: u8,
-    pub flags: u32,
-    pub offset_size: u16,
-    pub length_size: u16,
-    pub base_offset_size: u16,
-    pub index_size: u8,
-    pub item_count: u32,
-    // + Item Locations
 }
 
 // BaseBox + FullBox
@@ -76,41 +64,6 @@ pub struct ItemInfoEntry<'a> {
     pub extension_type: Option<[u8; 4]>,
     // Still missing fields
 }
-
-// BaseBox + FullBox
-pub struct IPMPControlBox<'a> {
-    pub size: u32,
-    /// This will always be `"iinf"`
-    pub box_type: &'a str,
-    pub version: u8,
-    pub flags: u32,
-    // End of full box
-    pub tool_list: IPMPToolListDescriptor<'a>,
-    pub ipmp_descriptors: Vec<IPMPDescriptor<'a>>,
-}
-
-// BaseBox + FullBox
-pub struct IPMPToolListDescriptor<'a> {
-    pub size: u32,
-    /// This will always be `"iinf"`
-    pub box_type: &'a str,
-    pub version: u8,
-    pub flags: u32,
-    // End of full box
-    pub entry_count: u32,
-    pub entries: Vec<FullBox<'a>>,
-}
-
-// BaseBox + FullBox
-pub struct IPMPDescriptor<'a> {
-    pub size: u32,
-    /// This will always be `"iinf"`
-    pub box_type: &'a str,
-    pub version: u8,
-    pub flags: u32,
-    // End of full box
-}
-
 // BaseBox + FullBox
 pub struct ItemReferenceBox<'a> {
     pub size: u32,
