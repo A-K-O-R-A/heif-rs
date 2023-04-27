@@ -1,6 +1,6 @@
 use std::io::{self, Read};
 
-use parser::{ftyp::parse_file_type_box, meta_box::parse_meta_box};
+use parser::{ftyp::parse_file_type_box, meta::parse_meta_box};
 
 pub mod boxes;
 pub mod parser;
