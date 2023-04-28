@@ -14,7 +14,7 @@ impl<'a> fmt::Display for GenericBox<'a> {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         write!(
             f,
-            "Box {{\n    size: {},\n    type: {},\n    data: [...]\n}}",
+            "Box {{ size: {}, type: {:?}, data: [...] }}",
             self.size, self.box_type
         )
     }
@@ -35,7 +35,7 @@ impl<'a> fmt::Display for GenericFullBox<'a> {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         write!(
             f,
-            "FullBox {{\n    size: {},\n    type: {},\n    version: {:08b},\n    flags: {:024b},\n    data: [...]\n}}",
+            "FullBox {{ size: {}, type: {:?}, version: {:08b}, flags: {:024b}, data: [...] }}",
             self.size, self.box_type, self.version, self.flags
         )
     }
