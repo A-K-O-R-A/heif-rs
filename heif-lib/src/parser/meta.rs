@@ -1,6 +1,6 @@
 use nom::IResult;
 
-use crate::boxes::base::GenericBox;
+use crate::boxes::generic::GenericBox;
 use crate::boxes::meta::MetaBox;
 
 use super::base_box::{parse_boxes, parse_full_box};

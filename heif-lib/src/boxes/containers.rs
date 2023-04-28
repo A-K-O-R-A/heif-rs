@@ -1,4 +1,4 @@
-use crate::boxes::base::GenericBox;
+use crate::boxes::generic::GenericBox;
 
 extern crate heif_macros;
 use heif_macros::define_box;

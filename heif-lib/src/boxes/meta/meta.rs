@@ -1,4 +1,4 @@
-use crate::boxes::base::{GenericBox, GenericFullBox};
+use crate::boxes::generic::{GenericBox, GenericFullBox};
 
 // BaseBox + FullBox
 #[derive(Debug)]

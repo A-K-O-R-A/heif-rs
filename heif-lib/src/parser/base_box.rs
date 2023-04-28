@@ -7,7 +7,7 @@ use nom::{
 };
 
 use super::util::take_4b_str;
-use crate::boxes::base::{GenericBox, GenericFullBox};
+use crate::boxes::generic::{GenericBox, GenericFullBox};
 
 fn take_size(i: &[u8]) -> IResult<&[u8], u32> {
     be_u32(i)

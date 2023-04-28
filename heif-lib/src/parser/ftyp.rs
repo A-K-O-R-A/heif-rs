@@ -1,6 +1,6 @@
 use nom::{multi::many0, number::complete::be_u32, sequence::Tuple, IResult};
 
-use crate::boxes::{base::GenericBox, image::FileTypeBox};
+use crate::boxes::{generic::GenericBox, image::FileTypeBox};
 
 use super::util::take_4b_str;
 
