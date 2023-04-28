@@ -33,7 +33,7 @@ pub fn define_box(attr: TokenStream, item: TokenStream) -> TokenStream {
     };
 
     println!("atts: {:?}", atts);
-    let str_rep = item.to_string();
+    let str_rep = String::from("#[derive(Debug)]\n") + &item.to_string();
 
     println!("tms: {}", str_rep);
 
