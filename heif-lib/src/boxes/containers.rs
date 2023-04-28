@@ -10,8 +10,8 @@ pub struct GenericContainerBox<'a> {
     pub children: Vec<BaseBox<'a>>,
 }
 
-/// Box type `"moov"`
-pub type MovieBox<'a> = GenericContainerBox<'a>;
+#[define_box("moov", container)]
+pub struct MovieBox<'a> {}
 
 /// Box type `"moof"`
 pub type MovieFragmentBox<'a> = GenericContainerBox<'a>;
