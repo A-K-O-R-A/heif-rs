@@ -2,7 +2,6 @@ use proc_macro::TokenStream;
 
 #[proc_macro_attribute]
 pub fn define_box(attr: TokenStream, item: TokenStream) -> TokenStream {
-    // let atts: Vec<_> = attr.into_iter().collect();
     let att_str = attr.to_string().replace(" ", "");
     let atts: Vec<_> = att_str.split(",").collect();
 
@@ -23,8 +22,6 @@ pub fn define_box(attr: TokenStream, item: TokenStream) -> TokenStream {
         panic!("Invalid box type, must be four characters long and utf8")
     }
 
-    println!("A: {} {}", box_type, first_attr.unwrap());
-
     let (full_box, container) = match (first_attr, second_attr) {
         (Some(&"full"), None) => (true, false),
         (Some(&"container"), None) => (false, true),
@@ -32,18 +29,14 @@ pub fn define_box(attr: TokenStream, item: TokenStream) -> TokenStream {
         _ => panic!("Invalid set of arguments"),
     };
 
-    println!("atts: {:?}", atts);
     let str_rep = String::from("#[derive(Debug)]\n") + &item.to_string();
-
-    println!("tms: {}", str_rep);
 
     let mut replace_string = String::from("{\n");
 
     replace_string += "    /// The size of the entire box in bytes\n";
     replace_string += "    pub size: u32,\n";
-    replace_string +=
-        format!("    /// This specifies the box type with 4 utf8 charcters, for this box it will always be `\"{box_type}\"`")
-            .as_ref();
+    replace_string += "    /// This specifies the box type with 4 utf8 charcters,\n";
+    replace_string += format!("    /// for this box it will always be `\"{box_type}\"`\n").as_ref();
     replace_string += "    pub box_type: &'a str,\n";
     replace_string += "    // END OF GENERIC BOX DEFINITION\n";
 
@@ -59,7 +52,7 @@ pub fn define_box(attr: TokenStream, item: TokenStream) -> TokenStream {
     if container {
         replace_string += "    /// The remaining data of the box will be parsed\n";
         replace_string += "    /// as a list of generic boxes\n";
-        replace_string += "    pub children: Vec<BaseBox<'a>>,\n";
+        replace_string += "    pub children: Vec<GenericBox<'a>>,\n";
     }
 
     str_rep.replace("{", &replace_string).parse().unwrap()

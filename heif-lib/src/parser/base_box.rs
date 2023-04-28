@@ -7,7 +7,7 @@ use nom::{
 };
 
 use super::util::take_4b_str;
-use crate::boxes::base::{BaseBox, FullBox};
+use crate::boxes::base::{GenericBox, GenericFullBox};
 
 fn take_size(i: &[u8]) -> IResult<&[u8], u32> {
     be_u32(i)
@@ -18,7 +18,7 @@ fn take_data(box_size: u32) -> impl Fn(&[u8]) -> IResult<&[u8], &[u8]> {
     move |i: &[u8]| take((box_size - 8) as usize)(i)
 }
 
-pub fn parse_base_box(i: &[u8]) -> IResult<&[u8], BaseBox> {
+pub fn parse_base_box(i: &[u8]) -> IResult<&[u8], GenericBox> {
     // TODO, spcial size case
     // https://github.com/jdeng/goheif/blob/a0d6a8b3e68f9d613abd9ae1db63c72ba33abd14/heif/bmff/bmff.go#L199
 
@@ -27,7 +27,7 @@ pub fn parse_base_box(i: &[u8]) -> IResult<&[u8], BaseBox> {
 
     Ok((
         i,
-        BaseBox {
+        GenericBox {
             size: box_size,
             box_type,
             data,
@@ -49,7 +49,7 @@ fn take_flags(i: &[u8]) -> IResult<&[u8], u32> {
 
 /// IMPORTANT this does not parse the full box from binary
 /// instead it continues parsing the data of a base box
-pub fn parse_full_box(base_box: BaseBox) -> IResult<&[u8], FullBox> {
+pub fn parse_full_box(base_box: GenericBox) -> IResult<&[u8], GenericFullBox> {
     // TODO, spcial size case
     // https://github.com/jdeng/goheif/blob/a0d6a8b3e68f9d613abd9ae1db63c72ba33abd14/heif/bmff/bmff.go#L199
     let i = base_box.data;
@@ -60,7 +60,7 @@ pub fn parse_full_box(base_box: BaseBox) -> IResult<&[u8], FullBox> {
 
     Ok((
         i,
-        FullBox {
+        GenericFullBox {
             size: base_box.size,
             box_type: base_box.box_type,
             version,
@@ -71,7 +71,7 @@ pub fn parse_full_box(base_box: BaseBox) -> IResult<&[u8], FullBox> {
     ))
 }
 
-pub fn parse_boxes(i: &[u8]) -> IResult<&[u8], Vec<BaseBox>> {
+pub fn parse_boxes(i: &[u8]) -> IResult<&[u8], Vec<GenericBox>> {
     let mut input_left = i;
     let mut boxes = Vec::new();
 

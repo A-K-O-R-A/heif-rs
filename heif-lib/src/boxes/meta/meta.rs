@@ -1,4 +1,4 @@
-use crate::boxes::base::{BaseBox, FullBox};
+use crate::boxes::base::{GenericBox, GenericFullBox};
 
 // BaseBox + FullBox
 #[derive(Debug)]
@@ -10,7 +10,7 @@ pub struct MetaBox<'a> {
     /// only 24 bits -> 3 bytes
     pub flags: u32,
     // End of full box
-    pub boxes: Vec<BaseBox<'a>>,
+    pub boxes: Vec<GenericBox<'a>>,
 }
 
 // BaseBox + FullBox
@@ -45,7 +45,7 @@ pub struct ItemInfoBox<'a> {
     pub version: u8,
     pub flags: u32,
     pub entry_count: u32,
-    pub entries: Vec<FullBox<'a>>,
+    pub entries: Vec<GenericFullBox<'a>>,
 }
 
 // BaseBox + FullBox
@@ -94,5 +94,5 @@ pub struct ItemDataBox<'a> {
     pub version: u8,
     pub flags: u32,
     pub entry_count: u32,
-    pub entries: Vec<FullBox<'a>>,
+    pub entries: Vec<GenericFullBox<'a>>,
 }

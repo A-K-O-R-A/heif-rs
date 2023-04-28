@@ -1,59 +1,52 @@
-use crate::boxes::base::BaseBox;
+use crate::boxes::base::GenericBox;
 
 extern crate heif_macros;
 use heif_macros::define_box;
 
-#[derive(Debug)]
-pub struct GenericContainerBox<'a> {
-    pub size: u32,
-    pub box_type: &'a str,
-    pub children: Vec<BaseBox<'a>>,
-}
-
 #[define_box("moov", container)]
 pub struct MovieBox<'a> {}
 
-/// Box type `"moof"`
-pub type MovieFragmentBox<'a> = GenericContainerBox<'a>;
+#[define_box("moof", container)]
+pub struct MovieFragmentBox<'a> {}
 
-/// Box type `"mfra"`
-pub type MovieFragmentRandomAccessBox<'a> = GenericContainerBox<'a>;
+#[define_box("mfra", container)]
+pub struct MovieFragmentRandomAccessBox<'a> {}
 
-/// Box type `"dinf"`
-pub type DataInformationBox<'a> = GenericContainerBox<'a>;
+#[define_box("dinf", container)]
+pub struct DataInformationBox<'a> {}
 
-/// Box type `"trak"`
-pub type TrackBox<'a> = GenericContainerBox<'a>;
+#[define_box("trak", container)]
+pub struct TrackBox<'a> {}
 
-/// Box type `"mvex"`
-pub type MovieExtendsBox<'a> = GenericContainerBox<'a>;
+#[define_box("mvex", container)]
+pub struct MovieExtendsBox<'a> {}
 
-/// Box type `"traf"`
-pub type TrackFragmentBox<'a> = GenericContainerBox<'a>;
+#[define_box("traf", container)]
+pub struct TrackFragmentBox<'a> {}
 
-/// Box type `"udta"`
-pub type UserDataBox<'a> = GenericContainerBox<'a>;
+#[define_box("udta", container)]
+pub struct UserDataBox<'a> {}
 
-/// Box type `"edts"`
-pub type EditBox<'a> = GenericContainerBox<'a>;
+#[define_box("edts", container)]
+pub struct EditBox<'a> {}
 
-/// Box type `"mdia"`
-pub type MediaBox<'a> = GenericContainerBox<'a>;
+#[define_box("mdia", container)]
+pub struct MediaBox<'a> {}
 
-/// Box type `"minf"`
-pub type MediaInformationBox<'a> = GenericContainerBox<'a>;
+#[define_box("minf", container)]
+pub struct MediaInformationBox<'a> {}
 
-/// Box type `"stbl"`
-pub type SampleTableBox<'a> = GenericContainerBox<'a>;
+#[define_box("stbl", container)]
+pub struct SampleTableBox<'a> {}
 
-/// Box type `"meco"`
-pub type AdditionalMetadataContainerBox<'a> = GenericContainerBox<'a>;
+#[define_box("meco", container)]
+pub struct AdditionalMetadataContainerBox<'a> {}
 
-/// Box type `"strk"`
-pub type SubTrackBox<'a> = GenericContainerBox<'a>;
+#[define_box("strk", container)]
+pub struct SubTrackBox<'a> {}
 
-/// Box type `"strd"`
-pub type SubTrackDefinitionBox<'a> = GenericContainerBox<'a>;
+#[define_box("strd", container)]
+pub struct SubTrackDefinitionBox<'a> {}
 
-/// Box type `"schi"`
-pub type SchemeInformationBox<'a> = GenericContainerBox<'a>;
+#[define_box("schi", container)]
+pub struct SchemeInformationBox<'a> {}

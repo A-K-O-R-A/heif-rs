@@ -1,8 +1,8 @@
 use super::{base::*, image::*, meta::*};
 
-pub enum GenericBox<'a> {
-    Box(BaseBox<'a>),
-    FullBox(FullBox<'a>),
+pub enum ParsedBox<'a> {
+    Box(GenericBox<'a>),
+    FullBox(GenericFullBox<'a>),
     MetaBox(MetaBox<'a>),
     HandlerBox(HandlerBox<'a>),
     PrimaryItemBox(PrimaryItemBox<'a>),
