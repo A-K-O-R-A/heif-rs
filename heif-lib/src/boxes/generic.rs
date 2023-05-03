@@ -30,7 +30,6 @@ impl<'a> fmt::Debug for GenericBox<'a> {
     }
 }
 
-#[derive(Debug)]
 pub struct GenericFullBox<'a> {
     pub size: u32,
     // Length 4
@@ -42,6 +41,16 @@ pub struct GenericFullBox<'a> {
 }
 
 impl<'a> fmt::Display for GenericFullBox<'a> {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        write!(
+            f,
+            "FullBox {{ size: {}, type: {:?}, version: {:08b}, flags: {:024b}, data: [...] }}",
+            self.size, self.box_type, self.version, self.flags
+        )
+    }
+}
+
+impl<'a> fmt::Debug for GenericFullBox<'a> {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         write!(
             f,
