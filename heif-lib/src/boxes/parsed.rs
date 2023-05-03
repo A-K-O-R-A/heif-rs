@@ -1,5 +1,6 @@
 use super::{generic::*, image::*, meta::*};
 
+#[derive(Debug)]
 pub enum ParsedBox<'a> {
     Box(GenericBox<'a>),
     FullBox(GenericFullBox<'a>),

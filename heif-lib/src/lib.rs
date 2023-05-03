@@ -2,6 +2,8 @@ use std::io::{self, Read};
 
 use parser::boxes::{ftyp::parse_file_type_box, meta::parse_meta_box};
 
+use crate::parser::box_map::parse_generic_box;
+
 pub mod boxes;
 pub mod parser;
 
@@ -14,6 +16,11 @@ pub fn parse_file<F: Read>(file: &mut F) -> io::Result<()> {
     if let Ok((_i, boxes)) = parse_result {
         //println!("{}", boxe);
         //println!("{:x?}", boxe.data);
+        let parsed_boxes: Vec<_> = boxes
+            .iter()
+            .map(|b| parse_generic_box(*b).unwrap().1)
+            .collect();
+
         let (_, ftyp_box) = parse_file_type_box(boxes[0].clone()).unwrap();
         let (_, meta_box) = parse_meta_box(boxes[1].clone()).unwrap();
 
@@ -23,8 +30,8 @@ pub fn parse_file<F: Read>(file: &mut F) -> io::Result<()> {
             println!("{}", b);
         }
 
-        for b in boxes {
-            println!("{}", b);
+        for b in parsed_boxes {
+            println!("{:?}", b);
         }
     } else {
         panic!("e");

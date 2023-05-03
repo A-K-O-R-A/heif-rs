@@ -1,3 +1,5 @@
+use heif_macros::define_box;
+
 use crate::boxes::generic::{GenericBox, GenericFullBox};
 
 // BaseBox + FullBox
@@ -14,48 +16,30 @@ pub struct MetaBox<'a> {
 }
 
 // BaseBox + FullBox
+#[define_box("hdlr", full)]
 pub struct HandlerBox<'a> {
-    pub size: u32,
-    /// This will always be `"hdlr"`
-    pub box_type: &'a str,
-    pub version: u8,
-    pub flags: u32,
-    // End of full box
     pub handler_type: &'a [u8; 4],
     // Unsure if this is a string
     pub name: &'a str,
 }
 
 // BaseBox + FullBox
+#[define_box("pitm", full)]
 pub struct PrimaryItemBox<'a> {
-    pub size: u32,
-    /// This will always be `"pitm"`
-    pub box_type: &'a str,
-    pub version: u8,
-    pub flags: u32,
     // End of FullBox
     pub item_id: u32,
 }
 
 // BaseBox + FullBox
+#[define_box("iinf", full)]
 pub struct ItemInfoBox<'a> {
-    pub size: u32,
-    /// This will always be `"iinf"`
-    pub box_type: &'a str,
-    pub version: u8,
-    pub flags: u32,
     pub entry_count: u32,
     pub entries: Vec<GenericFullBox<'a>>,
 }
 
 // BaseBox + FullBox
+#[define_box("infe", full)]
 pub struct ItemInfoEntry<'a> {
-    pub size: u32,
-    /// This will always be `"iinf"`
-    pub box_type: &'a str,
-    pub version: u8,
-    pub flags: u32,
-    //
     pub item_id: u32,
     pub item_protection_index: u32,
     pub item_name: &'a str,
@@ -65,34 +49,23 @@ pub struct ItemInfoEntry<'a> {
     // Still missing fields
 }
 // BaseBox + FullBox
+#[define_box("iref", full)]
 pub struct ItemReferenceBox<'a> {
-    pub size: u32,
-    /// This will always be `"iref"`
-    pub box_type: &'a str,
-    pub version: u8,
-    pub flags: u32,
     pub references_count: u32,
     // SingleItemTypeReferenceBox
     pub references: Vec<SingleItemTypeReferenceBox<'a>>,
 }
 
 // BaseBox
+#[define_box("????")]
 pub struct SingleItemTypeReferenceBox<'a> {
-    pub size: u32,
-    /// This will always be `"????"`
-    pub box_type: &'a str,
     pub from_item_id: u32,
     pub reference_count: u16,
     pub to_item_ids: Vec<u32>,
 }
 
 // BaseBox + FullBox
+#[define_box("idat", full)]
 pub struct ItemDataBox<'a> {
-    pub size: u32,
-    /// This will always be `"iinf"`
-    pub box_type: &'a str,
-    pub version: u8,
-    pub flags: u32,
-    pub entry_count: u32,
     pub entries: Vec<GenericFullBox<'a>>,
 }

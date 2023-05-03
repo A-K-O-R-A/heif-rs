@@ -1,8 +1,8 @@
-use std::fmt;
+use std::fmt::{self};
 
 // All Boxes contain the base Box as the first item in the structure.
 // Length - Type - Value
-#[derive(Debug, Clone, Copy)]
+#[derive(Clone, Copy)]
 pub struct GenericBox<'a> {
     pub size: u32,
     // 4 bytes long string
@@ -11,6 +11,16 @@ pub struct GenericBox<'a> {
 }
 
 impl<'a> fmt::Display for GenericBox<'a> {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        write!(
+            f,
+            "Box {{ size: {}, type: {:?}, data: [...] }}",
+            self.size, self.box_type
+        )
+    }
+}
+
+impl<'a> fmt::Debug for GenericBox<'a> {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         write!(
             f,
