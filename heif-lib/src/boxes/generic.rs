@@ -14,7 +14,7 @@ impl<'a> fmt::Display for GenericBox<'a> {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         write!(
             f,
-            "Box {{ size: {}, type: {:?}, data: [...] }}",
+            "GenericBox {{ size: {}, type: {:?}, data: [...] }}",
             self.size, self.box_type
         )
     }
@@ -24,7 +24,7 @@ impl<'a> fmt::Debug for GenericBox<'a> {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         write!(
             f,
-            "Box {{ size: {}, type: {:?}, data: [...] }}",
+            "GenericBox {{ size: {}, type: {:?}, data: [...] }}",
             self.size, self.box_type
         )
     }

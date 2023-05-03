@@ -21,14 +21,8 @@ pub fn parse_file<F: Read>(file: &mut F) -> io::Result<()> {
             .map(|b| parse_generic_box(*b).unwrap().1)
             .collect();
 
-        let (_, ftyp_box) = parse_file_type_box(boxes[0].clone()).unwrap();
-        let (_, meta_box) = parse_meta_box(boxes[1].clone()).unwrap();
-
-        println!("{:?}", ftyp_box);
-
-        for b in meta_box.boxes {
-            println!("{}", b);
-        }
+        let (_, _ftyp_box) = parse_file_type_box(boxes[0].clone()).unwrap();
+        let (_, _meta_box) = parse_meta_box(boxes[1].clone()).unwrap();
 
         for b in parsed_boxes {
             println!("{:?}", b);
