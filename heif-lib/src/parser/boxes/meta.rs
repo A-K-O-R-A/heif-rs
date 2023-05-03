@@ -3,7 +3,7 @@ use nom::IResult;
 use crate::boxes::generic::GenericBox;
 use crate::boxes::meta::MetaBox;
 
-use super::base_box::{parse_boxes, parse_full_box};
+use crate::parser::generic_box::{parse_boxes, parse_full_box};
 
 /// Parses a `"meta"` box from a given generic Box
 pub fn parse_meta_box(base_box: GenericBox) -> IResult<&[u8], MetaBox> {

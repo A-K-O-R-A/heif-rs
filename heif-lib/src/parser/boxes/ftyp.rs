@@ -2,7 +2,7 @@ use nom::{multi::many0, number::complete::be_u32, sequence::Tuple, IResult};
 
 use crate::boxes::{generic::GenericBox, image::FileTypeBox};
 
-use super::util::take_4b_str;
+use crate::parser::util::take_4b_str;
 
 fn parse_brands(i: &[u8]) -> IResult<&[u8], Vec<&str>> {
     many0(take_4b_str)(i)
