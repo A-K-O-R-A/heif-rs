@@ -35,6 +35,20 @@ pub fn parse_base_box(i: &[u8]) -> IResult<&[u8], GenericBox> {
     ))
 }
 
+pub fn parse_boxes(i: &[u8]) -> IResult<&[u8], Vec<GenericBox>> {
+    let mut input_left = i;
+    let mut boxes = Vec::new();
+
+    while input_left.len() > 8 {
+        let (new_i, parsed_box) = parse_base_box(input_left)?;
+
+        input_left = new_i;
+        boxes.push(parsed_box)
+    }
+
+    Ok((input_left, boxes))
+}
+
 fn take_version(i: &[u8]) -> IResult<&[u8], u8> {
     be_u8(i)
 }
@@ -69,18 +83,4 @@ pub fn parse_full_box(base_box: GenericBox) -> IResult<&[u8], GenericFullBox> {
             data: i,
         },
     ))
-}
-
-pub fn parse_boxes(i: &[u8]) -> IResult<&[u8], Vec<GenericBox>> {
-    let mut input_left = i;
-    let mut boxes = Vec::new();
-
-    while input_left.len() > 8 {
-        let (new_i, parsed_box) = parse_base_box(input_left)?;
-
-        input_left = new_i;
-        boxes.push(parsed_box)
-    }
-
-    Ok((input_left, boxes))
 }
