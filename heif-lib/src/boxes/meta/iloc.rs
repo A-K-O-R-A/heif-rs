@@ -1,10 +1,8 @@
+use heif_macros::define_box;
+
 // BaseBox + FullBox
+#[define_box("iloc", full)]
 pub struct ItemLocationBox<'a> {
-    pub size: u32,
-    /// This will always be `"iloc"`
-    pub box_type: &'a str,
-    pub version: u8,
-    pub flags: u32,
     pub offset_size: u16,
     pub length_size: u16,
     pub base_offset_size: u16,
@@ -13,6 +11,7 @@ pub struct ItemLocationBox<'a> {
     pub items: ItemLocation,
 }
 
+#[derive(Debug)]
 pub struct ItemLocation {
     pub item_id: u32,
     pub construction_method: u8,
@@ -22,6 +21,7 @@ pub struct ItemLocation {
     pub extents: Vec<Extent>,
 }
 
+#[derive(Debug)]
 pub struct Extent {
     pub index: u64,
     pub offset: u64,

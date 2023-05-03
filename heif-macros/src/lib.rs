@@ -23,6 +23,7 @@ pub fn define_box(attr: TokenStream, item: TokenStream) -> TokenStream {
     }
 
     let (full_box, container) = match (first_attr, second_attr) {
+        (None, None) => (false, false),
         (Some(&"full"), None) => (true, false),
         (Some(&"container"), None) => (false, true),
         (Some(&"full"), Some(&"container")) => (true, true),
