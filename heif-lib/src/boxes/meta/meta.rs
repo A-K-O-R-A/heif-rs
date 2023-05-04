@@ -18,7 +18,8 @@ pub struct MetaBox<'a> {
 // BaseBox + FullBox
 #[define_box("hdlr", full)]
 pub struct HandlerBox<'a> {
-    pub handler_type: &'a [u8; 4],
+    /// A 4 byte array
+    pub handler_type: &'a [u8],
     // Unsure if this is a string
     pub name: &'a str,
 }
