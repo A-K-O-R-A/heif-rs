@@ -4,7 +4,7 @@ use crate::boxes::{generic::GenericBox, parsed::ParsedBox};
 
 use super::boxes::{
     ftyp::parse_file_type_box,
-    meta::{parse_handler_box, parse_meta_box, parse_primary_item_box},
+    meta::{parse_handler_box, parse_item_location_box, parse_meta_box, parse_primary_item_box},
 };
 
 pub fn parse_generic_box(base_box: GenericBox) -> IResult<&[u8], ParsedBox> {
@@ -18,6 +18,7 @@ pub fn parse_generic_box(base_box: GenericBox) -> IResult<&[u8], ParsedBox> {
         "ftyp" => ParsedBox::FileTypeBox(parse_file_type_box(base_box)?.1),
         "hdlr" => ParsedBox::HandlerBox(parse_handler_box(base_box)?.1),
         "pitm" => ParsedBox::PrimaryItemBox(parse_primary_item_box(base_box)?.1),
+        "iloc" => ParsedBox::MetaBox(parse_item_location_box(base_box)?.1),
         _ => ParsedBox::Box(base_box),
     };
 

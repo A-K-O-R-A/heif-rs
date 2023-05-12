@@ -47,6 +47,7 @@ pub fn parse_handler_box(base_box: GenericBox) -> IResult<&[u8], HandlerBox> {
         },
     ))
 }
+
 /// Parses a `"pitm"` box from a given generic Box
 pub fn parse_primary_item_box(base_box: GenericBox) -> IResult<&[u8], PrimaryItemBox> {
     let (_, full_box) = parse_full_box(base_box)?;
@@ -74,6 +75,7 @@ pub fn parse_primary_item_box(base_box: GenericBox) -> IResult<&[u8], PrimaryIte
         },
     ))
 }
+
 /// Parses a `"meta"` box from a given generic Box
 pub fn parse_data_information_box(base_box: GenericBox) -> IResult<&[u8], MetaBox> {
     let (_, full_box) = parse_full_box(base_box)?;
@@ -91,11 +93,20 @@ pub fn parse_data_information_box(base_box: GenericBox) -> IResult<&[u8], MetaBo
         },
     ))
 }
-/// Parses a `"meta"` box from a given generic Box
+
+/// Parses a `"iloc"` box from a given generic Box
 pub fn parse_item_location_box(base_box: GenericBox) -> IResult<&[u8], MetaBox> {
     let (_, full_box) = parse_full_box(base_box)?;
+    let i = full_box.data;
 
-    let (i, child_boxes) = parse_boxes(full_box.data)?;
+    // Example hex repr
+    //
+
+    let i_len = i.len();
+    let size_slice = &i[(i_len - 5)..i_len];
+    println!("{:?}", size_slice);
+
+    let (i, (offset_size, length_size, base_offset_size)) = (be_u16, be_u16, be_u16).parse(i)?;
 
     Ok((
         i,
@@ -104,7 +115,7 @@ pub fn parse_item_location_box(base_box: GenericBox) -> IResult<&[u8], MetaBox> 
             box_type: full_box.box_type,
             version: full_box.version,
             flags: full_box.flags,
-            boxes: child_boxes,
+            boxes: vec![],
         },
     ))
 }
